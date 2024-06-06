@@ -1,26 +1,28 @@
 <template>
   <div>
+    <HeaderTitulo title="Tienda" />
+    <TiendaNavBar />
+    <HeaderSubtitulo HeadingText="Juegos gratuitos" :showPagar="false" :showButton="false" :showPuntos="false" />
     <div class="swiper">
       <SwiperComponent :slides="featuredGames" />
     </div>
-    <div class="cardgame">
-      <CardGame :game="highlightGame" />
-    </div>
-    <div class="mobile-highlight">
-      <JuegoDestacadoMovil :highlightGame="highlightGame" />
-    </div>
-    <HeaderSubtitulo HeadingText="Juegos destacados" :showPagar="false" :showButton="false" :showPuntos="false" />
     <div class="cards">
       <SingleCardGame v-for="game in games" :key="game.id" :game="game" />
     </div>
     <div class="mobile-cards">
-      <CardGameMovil
-        v-for="game in games"
-        :key="game.id"
-        :gameId="game.id"
-        :gameName="game.name"
-        :imageUrl="game.background_image"
-      />
+      <CardGameMovil v-for="game in games" :key="game.id" :gameId="game.id" :gameName="game.name"
+        :imageUrl="game.background_image" />
+    </div>
+    <HeaderSubtitulo HeadingText="Promociones" :showPagar="false" :showButton="false" :showPuntos="false" />
+    <div class="swiper">
+      <SwiperComponent :slides="featuredGames" />
+    </div>
+    <div class="cards">
+      <SingleCardGame v-for="game in games" :key="game.id" :game="game" />
+    </div>
+    <div class="mobile-cards">
+      <CardGameMovil v-for="game in games" :key="game.id" :gameId="game.id" :gameName="game.name"
+        :imageUrl="game.background_image" />
     </div>
   </div>
 </template>
@@ -31,8 +33,6 @@ import SwiperComponent from '~/components/SwiperComponent.vue';
 import CardGame from '~/components/CardGame.vue';
 import SingleCardGame from '~/components/SingleCardGame.vue';
 import HeaderSubtitulo from '~/components/HeaderSubtitulo.vue';
-import JuegoDestacadoMovil from '~/components/JuegoDestacadoMovil.vue';
-import CardGameMovil from '~/components/CardGameMovil.vue';
 
 const apiKey = '6ef278bbca324856844d239c28a65278'; // Replace with your RAWG API key
 
@@ -41,9 +41,7 @@ export default {
     SwiperComponent,
     CardGame,
     SingleCardGame,
-    HeaderSubtitulo,
-    JuegoDestacadoMovil,
-    CardGameMovil
+    HeaderSubtitulo
   },
   data() {
     return {
@@ -85,8 +83,7 @@ export default {
           background_image: gameDetailsResponse.data.background_image,
           name: gameDetailsResponse.data.name,
           description: gameDetailsResponse.data.description_raw || 'No description available',
-          genre: gameDetailsResponse.data.genres && gameDetailsResponse.data.genres.length > 0 ? gameDetailsResponse.data.genres[0].name : 'Unknown Genre',
-          price: '13,95€' // Mock price as example, replace with actual data if available
+          genre: gameDetailsResponse.data.genres && gameDetailsResponse.data.genres.length > 0 ? gameDetailsResponse.data.genres[0].name : 'Unknown Genre'
         };
       } catch (error) {
         console.error('Error fetching game details:', error);
@@ -107,44 +104,16 @@ export default {
   overflow-x: auto;
   width: calc(100% - 100px);
   white-space: nowrap;
-}
-
-.mobile-cards {
-  display: none;
-}
-
-.mobile-highlight {
-  display: none;
+  margin-top: 2rem;
 }
 
 @media (max-width: 480px) {
-  .cardgame {
+  .swiper {
     display: none;
   }
 
   .cards {
     display: none;
-  }
-
-  .swiper {
-    display: none;
-  }
-
-  .mobile-highlight {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    align-items: center;
-  }
-
-  .mobile-cards {
-    margin-left: 20px;
-    margin-right: 20px;
-    gap: 20px;
-    display: flex;
-    justify-content: flex-start;
-    overflow-x: auto;
-    overflow-y: none;
   }
 }
 </style>

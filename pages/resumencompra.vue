@@ -1,15 +1,18 @@
 <template>
   <div>
-    <div class="swiper">
-      <SwiperComponent :slides="featuredGames" />
-    </div>
-    <div class="cardgame">
+    <div class="juegos">
       <CardGame :game="highlightGame" />
+      <CardGame :game="highlightGame1" />
     </div>
-    <div class="mobile-highlight">
-      <JuegoDestacadoMovil :highlightGame="highlightGame" />
+    <div class="juegomovil">
+      <CardMovil :game="highlightGame" />
+      <CardMovil :game="highlightGame1" />
     </div>
-    <HeaderSubtitulo HeadingText="Juegos destacados" :showPagar="false" :showButton="false" :showPuntos="false" />
+    <div class="left">
+      <HeaderSubtitulo HeadingText="TOTAL a pagar : 27,9€" :showButton="false" :showPuntos="false" :showPagar="true"
+        buttonText="REALIZAR COMPRA" />
+    </div>
+    <HeaderSubtitulo HeadingText="Juegos Relacionados" :showButton="false" :showPuntos="false" :showPagar="false" />
     <div class="cards">
       <SingleCardGame v-for="game in games" :key="game.id" :game="game" />
     </div>
@@ -29,10 +32,9 @@
 import axios from 'axios';
 import SwiperComponent from '~/components/SwiperComponent.vue';
 import CardGame from '~/components/CardGame.vue';
+import CardMovil from '~/components/CardMovil.vue';
 import SingleCardGame from '~/components/SingleCardGame.vue';
 import HeaderSubtitulo from '~/components/HeaderSubtitulo.vue';
-import JuegoDestacadoMovil from '~/components/JuegoDestacadoMovil.vue';
-import CardGameMovil from '~/components/CardGameMovil.vue';
 
 const apiKey = '6ef278bbca324856844d239c28a65278'; // Replace with your RAWG API key
 
@@ -41,14 +43,13 @@ export default {
     SwiperComponent,
     CardGame,
     SingleCardGame,
-    HeaderSubtitulo,
-    JuegoDestacadoMovil,
-    CardGameMovil
+    HeaderSubtitulo
   },
   data() {
     return {
       games: [],
       highlightGame: {},
+      highlightGame1: {},
       featuredGames: []
     };
   },
@@ -66,6 +67,7 @@ export default {
         const gamesWithDetails = await Promise.all(gameDetailsPromises);
 
         this.highlightGame = gamesWithDetails[0];
+        this.highlightGame1 = gamesWithDetails[1];
         this.games = gamesWithDetails;
         this.featuredGames = gamesWithDetails.slice(0, 5).map(game => ({
           image: game.background_image,
@@ -85,8 +87,7 @@ export default {
           background_image: gameDetailsResponse.data.background_image,
           name: gameDetailsResponse.data.name,
           description: gameDetailsResponse.data.description_raw || 'No description available',
-          genre: gameDetailsResponse.data.genres && gameDetailsResponse.data.genres.length > 0 ? gameDetailsResponse.data.genres[0].name : 'Unknown Genre',
-          price: '13,95€' // Mock price as example, replace with actual data if available
+          genre: gameDetailsResponse.data.genres && gameDetailsResponse.data.genres.length > 0 ? gameDetailsResponse.data.genres[0].name : 'Unknown Genre'
         };
       } catch (error) {
         console.error('Error fetching game details:', error);
@@ -109,42 +110,22 @@ export default {
   white-space: nowrap;
 }
 
-.mobile-cards {
-  display: none;
+.left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
-
-.mobile-highlight {
+.juegomovil{
   display: none;
 }
 
 @media (max-width: 480px) {
-  .cardgame {
+  .juegos{
     display: none;
   }
-
-  .cards {
-    display: none;
-  }
-
-  .swiper {
-    display: none;
-  }
-
-  .mobile-highlight {
+  .juegomovil{
     display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    align-items: center;
-  }
-
-  .mobile-cards {
-    margin-left: 20px;
-    margin-right: 20px;
-    gap: 20px;
-    display: flex;
-    justify-content: flex-start;
-    overflow-x: auto;
-    overflow-y: none;
+    flex-direction: column;
   }
 }
 </style>

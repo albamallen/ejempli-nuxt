@@ -1,28 +1,30 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  components:[
+  components: [
     {
-      path:'~/components',
+      path: '~/components',
       pathPrefix: false,
     },
   ],
   googleFonts: {
     families: {
-      Roboto: true,
-      Inter: [400, 700],
-      'Josefin+Sans': true,
-      Lato: [100, 300],
-      Raleway: {
-        wght: [100, 400],
-        ital: [100]
-      },
-      Inter: '200..700',
-      'Crimson Pro': {
-        wght: '200..900',
-        ital: '200..700',
-      }
+      Roboto: [100, 400, 700], // Incluir pesos 100 (light), 400 (regular) y 700 (bold)
+      'DM+Mono': [400]
     }
   },
   modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', '@nuxtjs/google-fonts'],
+  css: [
+    'swiper/swiper-bundle.css'
+  ],
+  build: {
+    transpile: ['swiper']
+  },
+  routeRules: { 
+    '/web/v1/**': { 
+        proxy: { 
+          to: "http://localhost:9300/web/v1/**"
+        }, 
+    } 
+  },
 })
