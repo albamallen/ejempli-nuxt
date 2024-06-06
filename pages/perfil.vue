@@ -10,7 +10,7 @@
       </div>
       <div class="Frame208">
         <div class="Frame201">
-          <h2 class="NombreDeUsuario">Nombre de usuario</h2>
+          <h2 class="NombreDeUsuario">Alba</h2>
           <div class="BttLabel">
             <div class="Label">500 pts</div>
           </div>

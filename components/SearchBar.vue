@@ -65,7 +65,7 @@ export default {
     background: transparent;
     color: #6C6C6C;
     font-size: 16px;
-    font-family: SF Mono;
+    font-family: DM Mono;
     font-weight: 400;
 }
 

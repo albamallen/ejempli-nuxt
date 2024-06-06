@@ -123,14 +123,6 @@ export default {
   display: flex;
 }
 
-.Subtitulo {
-  color: var(--100);
-  font-size: 22px;
-  font-family: Neue Haas Grotesk Text Pro;
-  font-weight: 500;
-  word-wrap: break-word;
-}
-
 .BttIcons {
   display: inline-flex;
 }
